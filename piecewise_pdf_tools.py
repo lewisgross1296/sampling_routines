@@ -15,12 +15,10 @@ def createNormalizedPDF(E_grid,bin_vals,N,type):
     if(type=='constant'):
         # assumes pdf is piecewise with constant value in each region
         for i in range(0,N-1):
-            print(i)
             area += bin_vals[i]*(E_grid[i+1] - E_grid[i])
     elif(type=='linear'):
         # assumes pdf is piecewise linear in each region
         for i in range(0,N-1):
-            print(i)
             area += (bin_vals[i]+bin_vals[i+1])*(E_grid[i+1] - E_grid[i])/2
     else:
         print("Type: ",type," not recognized, enter linear or constant. Original bin_vals returned")
@@ -30,3 +28,29 @@ def createNormalizedPDF(E_grid,bin_vals,N,type):
     print("original area under provided data:",area)
     normalized_bin_vals = bin_vals/area
     return normalized_bin_vals
+
+
+# def computeCumulativeDensities(E_grid,bin_vals,N,type):
+#     normalized_bin_vals = createNormalizedPDF(E_grid,bin_vals,N,type)
+#     cumulative_density = 0.0
+#     cum_vals = np.zeros(N,float)
+#     if(np.size(E_grid)!=N):
+#         print("The energy grid expected ", N, " points, but the grid size is: ",np.size(E_grid),". Original bin_vals returned")
+#         return 
+#     if(type=='constant'):
+#         # assumes pdf is piecewise with constant value in each region
+#         for i in range(0,N):
+#             cum_vals[i+1] = cum_vals[i] + (E_grid[i+1] - E_grid[i])*bin_vals[i]
+#     elif(type=='linear'):
+#         # assumes pdf is piecewise linear in each region
+#         for i in range(0,N-1):
+#             cum_vals[i+1] += (bin_vals[i]+bin_vals[i+1])*(E_grid[i+1] - E_grid[i])/2
+#     else:
+#         print("Type: ",type," not recognized, enter linear or constant. Original bin_vals returned")
+#         return bin_vals #TODO is this appropriate?
+
+#     # TODO what is the best way to check for normalization, is it exception handling?
+#     if(np.isclose(1.0,cum_vals[-1],rtol=0.000001)):
+#         normalized = True
+#         return cum_vals
+#     return cum_vals

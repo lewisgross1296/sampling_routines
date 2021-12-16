@@ -27,6 +27,6 @@ def createNormalizedPDF(E_grid,bin_vals,N,type):
         return bin_vals
 
     # divide bin_vals by normalization factor so that pdf is normalized to one
-    print(area)
+    print("original area under provided data:",area)
     normalized_bin_vals = bin_vals/area
     return normalized_bin_vals

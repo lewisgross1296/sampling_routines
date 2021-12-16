@@ -12,8 +12,8 @@ bin_vals = [1,5,3,2,2]
 # TODO this may be unnecessary, 
 # may be better practice to compute this N in creatNormalizedPDF
 N = 5
-normalized_bin_vals = pdft.createNormalizedPDF(E_grid,bin_vals,N,"constant")
-
+constant_normalized_bin_vals = pdft.createNormalizedPDF(E_grid,bin_vals,N,"constant")
+print("original bin vals:",bin_vals,'\n',"returned bin vals",constant_normalized_bin_vals)
 
 # piecewise linear
 # energy grid given in order from lowest energy to highest energy
@@ -24,8 +24,9 @@ bin_vals = [1,5,3,2,6]
 # TODO this may be unnecessary, 
 # may be better practice to compute this N in creatNormalizedPDF
 N = 5
-normalized_bin_vals = pdft.createNormalizedPDF(E_grid,bin_vals,N,"linear")
-
+linear_normalized_bin_vals = pdft.createNormalizedPDF(E_grid,bin_vals,N,"linear")
+print("original bin vals:",bin_vals,'\n',"returned bin vals",linear_normalized_bin_vals)
 
 # test what happens when type passed is not constant or linear
-normalized_bin_vals = pdft.createNormalizedPDF(E_grid,bin_vals,N,"YOLO")
+failed_normalized_bin_vals = pdft.createNormalizedPDF(E_grid,bin_vals,N,"YOLO")
+print("original bin vals:",bin_vals,'\n',"returned bin vals",failed_normalized_bin_vals)

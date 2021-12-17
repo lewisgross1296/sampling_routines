@@ -1,7 +1,7 @@
 import numpy as np
 import os
 
-
+# OBSOLETE, WORKED ON DURING SW MEETING 12/17, TODO delete after happy with other implementation
 def createNormalizedPDF(e_grid, bin_vals, N, type):
     '''
     Accepts an energy grid with N+1 points and bin vals evaluated on the lower boundary of
@@ -16,8 +16,11 @@ def createNormalizedPDF(e_grid, bin_vals, N, type):
         return bin_vals
     if type == 'constant':
         # assumes pdf is piecewise with constant value in each region
-        for i in range(0, N-1):
-            area += bin_vals[i]*(e_grid[i+1] - e_grid[i])
+        area1 = np.dot( bin_vals[:-1],np.array((e_grid[1:]-e_grid[:-1])) ) # call numpy product
+        area2 = bin_vals[:-1].dot(e_grid[1:]-e_grid[:-1]) # call dot product from class member function
+        # for i in range(0, N-1):
+        #     area += bin_vals[i]*(e_grid[i+1] - e_grid[i])
+        print("area1: ", area1, "area2: ", area2)
     elif type == 'linear':
         # assumes pdf is piecewise linear in each region
         for i in range(0, N-1):
@@ -29,10 +32,10 @@ def createNormalizedPDF(e_grid, bin_vals, N, type):
 
     # divide bin_vals by normalization factor so that pdf is normalized to one
     print("original area under provided data:", area)
-    normalized_bin_vals = bin_vals/area
+    normalized_bin_vals = bin_vals/area1
     return normalized_bin_vals
 
-
+# TODO make more pythonic like other example
 def computeCumulativeDensities(e_grid, bin_vals, N, type):
     '''
     Accepts an energy grid with the pdf evaluated at the grid points. Normalizes the distribution 
@@ -64,5 +67,40 @@ def computeCumulativeDensities(e_grid, bin_vals, N, type):
     # possible check for normalization or other checks
     # if np.isclose(1.0, cumulative_vals[-1], rtol=0.0000001) else cumulative_vals
     return cumulative_vals
+
+
+def createNormalizedPDF(e_grid, bin_vals):
+    '''
+    #TODO add docstring
+    '''
+    area = 0.0
+    n_e = np.size(e_grid)
+    n_b = np.size(bin_vals)
+    # piecewise linear since there are as many bin vals as grid points
+    if n_e == n_b:
+        uppers = bin_vals[1:]
+        lowers = bin_vals[:-1]
+        mean_heights = (uppers + lowers) / 2
+        area = np.dot(mean_heights,np.array(e_grid[1:]-e_grid[:-1]))
+    # piecewise constant since there is one more grid point than bin vals
+    if n_e == n_b+1:
+        mean_heights = bin_vals
+        area = np.dot(mean_heights,np.array(e_grid[1:]-e_grid[:-1]))
+    else:
+        print("The difference bewtween the sizes of the grid and values was not 0 or 1, format incorrect")
+    normalized_bin_vals = bin_vals/area
+    return normalized_bin_vals
+
+def computeCumulativeDensities(e_grid, bin_vals):
+    '''
+    #TODO add docstring
+    '''
+    normalized_bin_vals = createNormalizedPDF(e_grid, bin_vals)
+    n_e = np.size(e_grid)
+    n_b = np.size(bin_vals)
+    cumulative_vals = np.zeros(n_e, float)
+    # pythonic way to get the area at each grid point without a loop...
+    return cumulative_vals
+
 
 # def invertCDF(e_grid,cumulative_vals)

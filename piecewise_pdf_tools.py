@@ -4,7 +4,7 @@ import os
 
 def createNormalizedPDF(e_grid, bin_vals, N, type):
     '''
-    Accepts an energy grid with N points and bin values evaluated on the lower boundary of
+    Accepts an energy grid with N+1 points and bin values evaluated on the lower boundary of
     each energy group, except the last bin_vals entry is the energy evaluated at the highest problem
     energy. Checks to see if the distribution is normalized. If not, compute and returns
     bin_vals for a normalized pdf. Works for piecewise constant and piecewise linear distributions
@@ -33,8 +33,13 @@ def createNormalizedPDF(e_grid, bin_vals, N, type):
     return normalized_bin_values
 
 
-def computeCumulativeDensities(e_grid, BIN_VALUES, N, type):
-    normalized_bin_values = createNormalizedPDF(e_grid, BIN_VALUES, N, type)
+def computeCumulativeDensities(e_grid, bin_vals, N, type):
+    '''
+    Accepts an energy grid with the pdf evaluated at the grid points. Normalizes the distribution 
+    in case that it is not normalized. Computes the cumulative density at each rid point and returns 
+    this list of cumulative densities
+    '''
+    normalized_bin_values = createNormalizedPDF(e_grid, bin_vals, N, type)
     cumulative_values = np.zeros(N, float)
     if np.size(e_grid) != N:
         print("The energy grid expected ", N, " points, but the grid size is: ", np.size(
@@ -53,7 +58,9 @@ def computeCumulativeDensities(e_grid, BIN_VALUES, N, type):
     else:
         print("type: ", type,
               " not recognized, enter linear or constant. normalized_bin_values returned")
-        return normalized_bin_values  # TODO is this appropriate?
+        return  # TODO what is this appropriate?
 
-    # TODO what is the best way to check for normalization and what to return
-    return cumulative_values if np.isclose(1.0, cumulative_values[-1], rtol=0.0000001) else cumulative_values
+    # TODO what is the best way to check for normalization and what to return if not normalized
+    # possible check for normalization or other checks
+    # if np.isclose(1.0, cumulative_values[-1], rtol=0.0000001) else cumulative_values
+    return cumulative_values

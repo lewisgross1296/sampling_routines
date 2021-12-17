@@ -1,6 +1,6 @@
-import piecewise_pdf_tools as pdft
 import numpy as np
 import matplotlib
+import piecewise_pdf_tools as pdft
 
 # SET UP EXAMPLE PDFS
 # piecewise constant

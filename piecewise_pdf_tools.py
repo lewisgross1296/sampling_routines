@@ -54,7 +54,7 @@ def computeCumulativeDensities(e_grid, bin_vals, N, type):
         # assumes pdf is piecewise linear in each region
         for i in range(0, N-1):
             cumulative_vals[i+1] += (normalized_bin_vals[i] +
-                                       normalized_bin_vals[i+1])*(e_grid[i+1] - e_grid[i])/2
+                                     normalized_bin_vals[i+1])*(e_grid[i+1] - e_grid[i])/2
     else:
         print("type: ", type,
               " not recognized, enter linear or constant. normalized_bin_vals returned")

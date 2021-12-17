@@ -14,10 +14,15 @@ CONSTANT_NORMALIZED_BIN_VALS = pdft.createNormalizedPDF(
     E_GRID, BIN_VALS, N, "constant")
 print("original bin vals:", BIN_VALS,
       "returned bin vals:", CONSTANT_NORMALIZED_BIN_VALS)
-print('\n')
+print("\n")
 CONSTANT_NORMALIZED_BIN_VALS_CHECK = pdft.createNormalizedPDF(
     E_GRID, CONSTANT_NORMALIZED_BIN_VALS, N, "constant")
-print('\n')
+print("\n")
+constant_cumulative_vals = pdft.createNormalizedPDF(
+    E_GRID, CONSTANT_NORMALIZED_BIN_VALS, N, "constant")
+print("The CDF evaluated at the grid points: ",constant_cumulative_vals)
+print("\n")
+
 
 # piecewise linear
 # energy grid given in order from lowest energy to highest energy
@@ -33,6 +38,10 @@ print("original bin vals:", BIN_VALS,
 print("\n")
 LINEAR_NORMALIZED_BIN_VALS_CHECK = pdft.createNormalizedPDF(
     E_GRID, LINEAR_NORMALIZED_BIN_VALS, N, "linear")
+print("\n")
+linear_cumulative_vals = pdft.createNormalizedPDF(
+    E_GRID, LINEAR_NORMALIZED_BIN_VALS, N, "linear")
+print("The CDF evaluated at the grid points: ",linear_cumulative_vals)
 print("\n")
 
 # test what happens when type passed is not constant or linear
